@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Notifications</title>
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+        <script type="text/javascript" src="index.js"></script>
+    </head>
+    <body>
+        <fieldset id="notification">
+            <legend>Notification : </legend>
+            <label for="title">Title</label>
+            <input id="title" type="text" placeholder="Notification Title"><br />
+            <label for="message">Message</label>
+            <input id="message" type="text" placeholder="Notification Message"><br />
+            <label for="timeInput">Time</label>
+            <input type="text" id="timeInput" 
+                   title="Your time must be HH:MM formatted"
+                   placeholder="HH:MM"
+            /><br />
+            <button id="notifyButton" onclick="handleButtonClick()">Generate</button>
+        </fieldset><br />
+
+        <div id="scheduleTasksDiv">
+            <fieldset id="scheduledTasks">
+                <legend>Scheduled tasks :</legend>
+            </fieldset>
+        </div>
+    </body>
+</html>

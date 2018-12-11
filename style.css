@@ -1,0 +1,57 @@
+input {
+    display: block;
+}
+
+#scheduledTasks {
+    visibility: hidden;
+    float: left;
+    width: 400;
+}
+
+#editFieldset {
+    display: inline;
+    width: 400;
+}
+
+#myProgress {
+    width: 100%;
+    background-color: grey;
+    display: inline;
+}
+
+#myBar {
+    width: 1%;
+    height: 20px;
+    background-color: lightGreen;
+}
+
+button {
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: khaki;
+}
+
+button:hover{
+    background-color: yellow;
+    box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24), 0 10px 25px 0 rgba(0,0,0,0.19);
+}
+
+
+
+#terminateButton, #editButton, #cancelButton {
+    margin-left: 10px;
+}
+
+input {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+input:focus {
+    background-color: LemonChiffon;
+}
+
+fieldset {
+    border-style: solid;
+    border-color: lightCoral;
+}
