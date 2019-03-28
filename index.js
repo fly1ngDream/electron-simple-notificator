@@ -107,95 +107,100 @@ let handleButtonClick = function() {
     editButton.textContent = 'Edit';
     editButton.id='editButton';
     editButton.addEventListener('click', function() {
-        let editFieldset = document.createElement('fieldset');
-        editFieldset.id = 'editFieldset';
-        let editLegend = document.createElement('legend');
-        editLegend.textContent = 'Edit :';
-        let editTitleLabel = document.createElement('label');
-        editTitleLabel.textContent = 'Title';
-        let editTitle = document.createElement('input');
-        editTitle.type = 'text';
-        editTitle.placeholder = 'Notification title';
-        let editMessageLabel = document.createElement('label');
-        editMessageLabel.textContent = 'Message';
-        let editMessage = document.createElement('input');
-        editMessage.type = 'text';
-        editMessage.placeholder = 'Notification message';
-        let editTimeLabel = document.createElement('label');
-        editTimeLabel.textContent = 'Time';
-        let editTime = document.createElement('input');
-        editTime.type = 'text';
-        editTime.title = 'Your time must be HH:MM formatted';
-        editTime.placeholder = 'HH:MM';
-        let editProgress = document.createElement('div');
-        let editOk = document.createElement('button');
-        editOk.textContent = 'Ok';
-        editOk.addEventListener('click', function() {
-            if (!(/^([0-1][0-9]|2[0-4]):[0-5][0-9]$/).test(editTime.value)) {
-                editTime.focus();
-                editTime.style = 'border-color: red';
-                editTime.value = '';
-                return false;
-            }
-            editTime.style = 'border-color: black';
+        if (document.querySelector('#cancelButton')) {
+            console.log('1');
+            let editCancelButton = document.querySelector('#cancelButton');
+            editCancelButton.click();
+        } else {
+            let editFieldset = document.createElement('fieldset');
+            editFieldset.id = 'editFieldset';
+            let editLegend = document.createElement('legend');
+            editLegend.textContent = 'Edit :';
+            let editTitleLabel = document.createElement('label');
+            editTitleLabel.textContent = 'Title';
+            let editTitle = document.createElement('input');
+            editTitle.type = 'text';
+            editTitle.placeholder = 'Notification title';
+            let editMessageLabel = document.createElement('label');
+            editMessageLabel.textContent = 'Message';
+            let editMessage = document.createElement('input');
+            editMessage.type = 'text';
+            editMessage.placeholder = 'Notification message';
+            let editTimeLabel = document.createElement('label');
+            editTimeLabel.textContent = 'Time';
+            let editTime = document.createElement('input');
+            editTime.type = 'text';
+            editTime.title = 'Your time must be HH:MM formatted';
+            editTime.placeholder = 'HH:MM';
+            let editProgress = document.createElement('div');
+            let editOk = document.createElement('button');
+            editOk.textContent = 'Ok';
+            editOk.addEventListener('click', function() {
+                if (!(/^([0-1][0-9]|2[0-4]):[0-5][0-9]$/).test(editTime.value)) {
+                    editTime.focus();
+                    editTime.style = 'border-color: red';
+                    editTime.value = '';
+                    return false;
+                }
+                editTime.style = 'border-color: black';
 
-            worker.terminate();
-            worker = new Worker('worker.js');
-            worker.addEventListener('message', function(e) {
-                if(e.data == '1') {
-                    handleEditedNotification(editTitle.value, editMessage.value);
-                    newTerminateTaskButton.click();
-                }
-            });
-            worker.postMessage(editTime.value);
-            newTaskLabel.textContent = editTime.value + ' | ' + editTitle.value + ' ';
-            newMessageLabel.textContent = editMessage.value;
-            clearInterval(id);
-            newBar.style.width = '1%';
-            let moveProgress = function() {
-                let elem = newBar;
-                let seconds1 = (parseInt(editTime.value.split(':')[0]) * 3600) +
-                    (parseInt(editTime.value.split(':')[1]) * 60);
-                let seconds2 = (parseInt(getCurrentFormatedTime().split(':')[0]) * 3600) +
-                    (parseInt(getCurrentFormatedTime().split(':')[1]) * 60) + parseInt((new Date).getSeconds());
-                let miliseconds = (seconds1 - seconds2) * 1000;
-                let width = 1;
-                id = setInterval(frame, miliseconds/100);
-                function frame() {
-                    if (width >= 100) {
-                        clearInterval(id);
-                    } else {
-                        width++;
-                        elem.style.width = width + '%';
+                worker.terminate();
+                worker = new Worker('worker.js');
+                worker.addEventListener('message', function(e) {
+                    if(e.data == '1') {
+                        handleEditedNotification(editTitle.value, editMessage.value);
+                        newTerminateTaskButton.click();
                     }
-                }
-            };
-            moveProgress();
-            editFieldset.parentNode.removeChild(editFieldset);
-            return true;
-        });
-        let editCancel = document.createElement('button');
-        editCancel.textContent = 'Cancel';
-        editCancel.addEventListener('click', function() {
-            editFieldset.parentNode.removeChild(editFieldset);
-        });
-        editCancel.id = 'cancelButton';
-        editFieldset.appendChild(editLegend);
-        editFieldset.appendChild(editTitleLabel);
-        editFieldset.appendChild(editTitle);
-        editFieldset.appendChild(document.createElement('br'));
-        editFieldset.appendChild(editMessageLabel);
-        editFieldset.appendChild(editMessage);
-        editFieldset.appendChild(document.createElement('br'));
-        editFieldset.appendChild(editTimeLabel);
-        editFieldset.appendChild(editTime);
-        editFieldset.appendChild(document.createElement('br'));
-        editFieldset.appendChild(editOk);
-        editFieldset.appendChild(editCancel);
-        document.querySelector('#scheduleTasksDiv').appendChild(editFieldset);
+                });
+                worker.postMessage(editTime.value);
+                newTaskLabel.textContent = editTime.value + ' | ' + editTitle.value + ' ';
+                newMessageLabel.textContent = editMessage.value;
+                clearInterval(id);
+                newBar.style.width = '1%';
+                let moveProgress = function() {
+                    let elem = newBar;
+                    let seconds1 = (parseInt(editTime.value.split(':')[0]) * 3600) +
+                        (parseInt(editTime.value.split(':')[1]) * 60);
+                    let seconds2 = (parseInt(getCurrentFormatedTime().split(':')[0]) * 3600) +
+                        (parseInt(getCurrentFormatedTime().split(':')[1]) * 60) + parseInt((new Date).getSeconds());
+                    let miliseconds = (seconds1 - seconds2) * 1000;
+                    let width = 1;
+                    id = setInterval(frame, miliseconds/100);
+                    function frame() {
+                        if (width >= 100) {
+                            clearInterval(id);
+                        } else {
+                            width++;
+                            elem.style.width = width + '%';
+                        }
+                    }
+                };
+                moveProgress();
+                editFieldset.parentNode.removeChild(editFieldset);
+                return true;
+            });
+            let editCancel = document.createElement('button');
+            editCancel.textContent = 'Cancel';
+            editCancel.addEventListener('click', function() {
+                editFieldset.parentNode.removeChild(editFieldset);
+            });
+            editCancel.id = 'cancelButton';
+            editFieldset.appendChild(editLegend);
+            editFieldset.appendChild(editTitleLabel);
+            editFieldset.appendChild(editTitle);
+            editFieldset.appendChild(document.createElement('br'));
+            editFieldset.appendChild(editMessageLabel);
+            editFieldset.appendChild(editMessage);
+            editFieldset.appendChild(document.createElement('br'));
+            editFieldset.appendChild(editTimeLabel);
+            editFieldset.appendChild(editTime);
+            editFieldset.appendChild(document.createElement('br'));
+            editFieldset.appendChild(editOk);
+            editFieldset.appendChild(editCancel);
+            document.querySelector('#scheduleTasksDiv').appendChild(editFieldset);
+        }
     });
 
-    
 
     newTerminateTaskButton.addEventListener('click', function() {
         worker.terminate();
@@ -209,14 +214,14 @@ let handleButtonClick = function() {
             document.querySelector('#scheduledTasks').style.visibility = 'hidden';
         }
     });
-    
+
     newProgress.appendChild(newBar);
 
     document.querySelector('#scheduledTasks').appendChild(newTaskLabel);
     document.querySelector('#scheduledTasks').appendChild(newTerminateTaskButton);
     document.querySelector('#scheduledTasks').appendChild(editButton);
     document.querySelector('#scheduledTasks').appendChild(newProgress);
-    
+
     moveProgress();
     document.querySelector('#scheduledTasks').appendChild(newBr);
     tasksCounter++;
