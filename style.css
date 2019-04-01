@@ -15,14 +15,16 @@ input {
 
 #myProgress {
     width: 100%;
-    background-color: grey;
-    display: inline;
+    background-color: lightgrey;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin-top: 5px;
 }
 
 #myBar {
     width: 1%;
     height: 20px;
-    background-color: lightGreen;
+    background-color: green;
 }
 
 button {
